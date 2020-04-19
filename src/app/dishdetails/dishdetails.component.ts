@@ -11,7 +11,7 @@ import { Dish } from '../shared/dish';
 export class DishdetailsComponent implements OnInit {
 
     @Input()
-  dish = Dish;
+  dish : Dish;
     
   constructor() { }
 
