@@ -18,6 +18,10 @@ import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
+
+
 
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailsComponent } from './dishdetails/dishdetails.component';
@@ -66,7 +70,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     DishService,
