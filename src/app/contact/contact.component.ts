@@ -1,8 +1,11 @@
-import { Component, OnInit ,ViewChild} from '@angular/core';
+import { Component, OnInit ,ViewChild,Inject} from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from '@angular/forms';
 import{Feedback,ContactType} from '../shared/feedback';
-import {flyInOut} from '../animations/app.animation';
-
+import {switchMap} from 'rxjs/operators';
+import {Params,ActivatedRoute} from '@angular/router';
+import {Location } from '@angular/common';
+import  {FeedbackService} from '../services/feedback.service';
+import {visibility,flyInOut,expand} from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -22,6 +25,8 @@ export class ContactComponent implements OnInit {
   feedbackForm:FormGroup;
   feedback:Feedback;
   contactType=ContactType;
+  feedbackcopy:Feedback;
+  errMess:string;
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors={
@@ -52,7 +57,9 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private fb :FormBuilder) {
+  constructor(private fb :FormBuilder,private route:ActivatedRoute,
+    private feedbackService:FeedbackService
+    ) {
     this.createForm();
    }
 
@@ -97,8 +104,14 @@ this.feedbackForm.valueChanges
   }
 
   onSubmit(){
+
     this.feedback=this.feedbackForm.value;
-    console.log(this.feedback);
+    this.feedbackService.submitFeedback(this.feedback)
+    .subscribe(feedback=>{
+      this.feedback=feedback;
+      console.log(this.feedback);
+    });
+    
     this.feedbackForm.reset({
       firstname:'',
       lastname:'',
