@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Feedback} from '../shared/feedback';
-import {of, Observable} from 'rxjs';
-import {delay} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {baseURL} from '../shared/baseurl';
-import {map, catchError} from 'rxjs/operators';
+import { catchError} from 'rxjs/operators';
 import {ProcessHTTPMsgService} from './process-httpmsg.service';
 @Injectable({
   providedIn: 'root'

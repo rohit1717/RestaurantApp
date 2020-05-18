@@ -16,7 +16,9 @@ import {visibility,flyInOut,expand} from '../animations/app.animation';
     'style':'display:block;'
   },
   animations:[
-    flyInOut()
+    flyInOut(),
+    visibility(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -27,6 +29,8 @@ export class ContactComponent implements OnInit {
   contactType=ContactType;
   feedbackcopy:Feedback;
   errMess:string;
+  visibility='shown';
+  visibility1='hidden';
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors={
@@ -56,11 +60,14 @@ export class ContactComponent implements OnInit {
       'email':'email not in valid format'
     }
   };
-
+isLoading:boolean;
+isShowingResponse:boolean;
   constructor(private fb :FormBuilder,private route:ActivatedRoute,
     private feedbackService:FeedbackService
     ) {
     this.createForm();
+    this.isLoading=false;
+    this.isShowingResponse=false;
    }
 
   ngOnInit(): void {
@@ -104,13 +111,29 @@ this.feedbackForm.valueChanges
   }
 
   onSubmit(){
-
+    this.isLoading=true;
+    this.visibility="hidden"
     this.feedback=this.feedbackForm.value;
     this.feedbackService.submitFeedback(this.feedback)
     .subscribe(feedback=>{
       this.feedback=feedback;
       console.log(this.feedback);
-    });
+      
+      this.isShowingResponse=true;
+      this.visibility1="shown";
+      setTimeout(()=>{
+        this.visibility1="hidden";
+        this.visibility="shown";
+        this.isShowingResponse=false;
+        this.isLoading=false;
+      },5000);
+    },          
+    errmess => {
+      this.feedback = null;
+      this.feedbackcopy = null;
+      this.errMess = <any>errmess;
+    } 
+    );
     
     this.feedbackForm.reset({
       firstname:'',
@@ -120,8 +143,11 @@ this.feedbackForm.valueChanges
       agree:false,
       contacttype:'None',
       message:''
-    });
+    },
+    );
     this.feedbackFormDirective.resetForm();
+    
+    
   }
 
 }

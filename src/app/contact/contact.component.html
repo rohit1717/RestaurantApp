@@ -37,7 +37,7 @@
   </div>
 
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <div fxFlex fxFlexOffset="20px" class="form-size"  *ngIf="!isLoading && !isShowingResponse" [@visibility]="visibility" [@expand] >
     <h3>Send us your feedback</h3>
     <p>{{feedbackForm.value | json}} {{feedbackForm.status | json}}</p>
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
@@ -95,4 +95,48 @@
     </form>
 
   </div>
+  <div fxFlex *ngIf="isLoading && !isShowingResponse" >
+    <mat-spinner></mat-spinner><h3>Submitting Form</h3>
+    </div>
+    <div fxFlex *ngIf="isShowingResponse" [@visibility]="visibility1" [@expand]>
+      <mat-card>
+        <mat-card-header>
+        <mat-card-title>Your Submission</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table>
+            <tr>
+            </tr>
+            <tr>
+              <td><span>First Name:</span></td>
+              <td>{{feedback.firstname}}</td>
+            </tr>
+            <tr>
+              <td><span>Last Name:</span></td>
+              <td>{{feedback.lastname}}</td>
+            </tr>
+            <tr>
+              <td><span>Tel. Number:</span></td>
+              <td>{{feedback.telnum}}</td>
+            </tr>
+            <tr>
+              <td><span>Email:</span></td>
+              <td>{{feedback.email}}</td>
+            </tr>
+            <tr>
+              <td><span>Contact You:</span></td>
+              <td>{{feedback.agree}}</td>
+            </tr>
+            <tr>
+              <td><span>How:</span></td>
+              <td>{{feedback.contacttype}}</td>
+            </tr>
+            <tr>
+              <td><span>Feedback:</span></td>
+              <td>{{feedback.message}}</td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
 </div>
